@@ -1,123 +1,98 @@
-import { Github, Twitter, Linkedin, Mail, Heart } from "lucide-react";
+import { Github, Twitter, Linkedin, ArrowUp } from "lucide-react";
 import { Link } from "react-router-dom";
+import { profile, socials } from "@/data/portfolio";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-background border-t border-border/50">
-      <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Brand Column */}
-          <div className="col-span-1 md:col-span-2 space-y-4">
-            <Link to="/" className="text-2xl font-bold tracking-tighter">
-              Portfolio<span className="text-primary">.</span>
+    <footer className="mx-auto max-w-6xl px-4 pb-6 md:px-6">
+      <div className="overflow-hidden rounded-[32px] border border-border bg-card">
+        <div className="grid gap-10 p-7 md:grid-cols-4 md:p-10">
+          <div className="space-y-4 md:col-span-2">
+            <Link to="/" className="flex items-center gap-2.5">
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-foreground font-display font-bold text-background">
+                M
+              </span>
+              <span className="font-display text-lg font-semibold">{profile.name}</span>
             </Link>
-            <p className="text-muted-foreground max-w-xs">
-              Building digital experiences with modern technologies. Focused on
-              performance, accessibility, and clean code.
+            <p className="max-w-xs text-sm text-muted-foreground">
+              Backend-leaning full-stack engineer. Performance, reliability and clean code.
             </p>
-            <div className="flex gap-4">
-              <a
-                href="https://github.com/mayank-rawat98"
-                target="_blank"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Github size={20} />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/mayankrawat2402/"
-                target="_blank"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href="https://x.com/home"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Twitter size={20} />
-              </a>
+            <div className="flex gap-1">
+              {[
+                { href: socials.github, icon: Github, label: "GitHub" },
+                { href: socials.linkedin, icon: Linkedin, label: "LinkedIn" },
+                { href: socials.x, icon: Twitter, label: "X" },
+              ].map(({ href, icon: Icon, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="grid h-10 w-10 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                >
+                  <Icon size={17} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Links Column 1 */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Navigation</h3>
-            <ul className="space-y-2 text-muted-foreground">
-              <li>
-                <a
-                  href="/#about"
-                  className="hover:text-primary transition-colors"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/#experience"
-                  className="hover:text-primary transition-colors"
-                >
-                  Experience
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/#projects"
-                  className="hover:text-primary transition-colors"
-                >
-                  Projects
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/#contact"
-                  className="hover:text-primary transition-colors"
-                >
-                  Contact
-                </a>
-              </li>
+          <div className="space-y-3">
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              Navigate
+            </h3>
+            <ul className="space-y-2 text-sm">
+              {[
+                ["Work", "projects"],
+                ["About", "about"],
+                ["Experience", "experience"],
+                ["Contact", "contact"],
+              ].map(([label, id]) => (
+                <li key={id}>
+                  <a href={`/#${id}`} className="transition-colors hover:text-primary">
+                    {label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Links Column 2 */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Legal</h3>
-            <ul className="space-y-2 text-muted-foreground">
+          <div className="space-y-3">
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              Legal
+            </h3>
+            <ul className="space-y-2 text-sm">
               <li>
-                <Link
-                  to="/privacy"
-                  className="hover:text-primary transition-colors"
-                >
+                <Link to="/privacy" className="transition-colors hover:text-primary">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/terms"
-                  className="hover:text-primary transition-colors"
-                >
+                <Link to="/terms" className="transition-colors hover:text-primary">
                   Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/privacy"
-                  className="hover:text-primary transition-colors"
-                >
-                  Cookie Policy
                 </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground flex items-center gap-1">
-            © {currentYear} Mayank Rawat.
+        {/* Oversized wordmark */}
+        <div className="relative select-none overflow-hidden px-7 md:px-10">
+          <p className="translate-y-[18%] whitespace-nowrap font-display text-[19vw] font-bold leading-none tracking-tighter text-foreground/[0.06] md:text-[11rem]">
+            mayank rawat
           </p>
+        </div>
+
+        <div className="flex items-center justify-between border-t border-border px-7 py-5 text-xs text-muted-foreground md:px-10">
+          <p>© {currentYear} {profile.name}</p>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
+          >
+            Back to top <ArrowUp size={13} />
+          </button>
         </div>
       </div>
     </footer>
