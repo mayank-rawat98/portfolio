@@ -1,33 +1,36 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-} from "lucide-react";
+import { ArrowUpRight, Copy, Check, Send, Phone, MapPin } from "lucide-react";
 import { toast } from "sonner";
+import { Reveal, SpotlightCard } from "@/components/kit";
+import { profile } from "@/data/portfolio";
+
+const fieldClass =
+  "w-full rounded-2xl border border-border bg-background/60 px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:bg-background";
 
 const Contact = () => {
-  // 1. Manage Form State
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      toast.success("Email copied to clipboard");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.location.href = `mailto:${profile.email}`;
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,19 +44,11 @@ const Contact = () => {
         method: "POST",
         body: formDataToSend,
       });
-
       const data = await response.json();
 
       if (data.success) {
         toast.success("Message sent successfully!");
-        // Reset form
-        setFormData({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
-        // Optional: Reset the actual HTML form if needed
+        setFormData({ name: "", email: "", subject: "", message: "" });
         form.reset();
       } else {
         console.error("Error", data);
@@ -68,183 +63,128 @@ const Contact = () => {
   };
 
   return (
-    <section
-      id="contact"
-      className="py-24 relative overflow-hidden bg-background"
-    >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-primary/5 rounded-[100%] blur-[100px] -z-10" />
+    <section id="contact" className="py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
+        <Reveal>
+          <div className="relative overflow-hidden rounded-[32px] border border-border bg-card">
+            <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_65%)]" />
+            <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-primary/20 blur-[120px]" />
 
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
-            Let's Work Together
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Ready to start your next project? Send me a message and let's
-            discuss how we can bring your ideas to life.
-          </p>
-        </motion.div>
+            <div className="relative grid gap-10 p-6 md:p-12 lg:grid-cols-2 lg:gap-16">
+              <div className="flex flex-col">
+                <div className="mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  <span className="text-primary">06</span>
+                  <span className="h-px w-8 bg-border" />
+                  <span>Contact</span>
+                </div>
+                <h2 className="font-display text-5xl font-semibold leading-[0.95] tracking-tight md:text-7xl">
+                  Let's build <br />
+                  <span className="text-primary">something.</span>
+                </h2>
+                <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
+                  Available for freelance work and open to full-time roles. Tell me what you're
+                  building and I'll get back within a day.
+                </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-6xl mx-auto items-start">
-          {/* Contact Info Side */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-5 space-y-8"
-          >
-            <div className="p-8 rounded-3xl bg-secondary/30 border border-border/50 backdrop-blur-sm relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-
-              <h3 className="text-2xl font-bold mb-2">Get in touch</h3>
-              <p className="text-muted-foreground mb-8 leading-relaxed">
-                I'm currently available for freelance work and open to full-time
-                opportunities.
-              </p>
-
-              <div className="space-y-6">
-                <a
-                  href="mailto:mr.mayank2402@gmail.com"
-                  className="flex items-center gap-4 p-4 rounded-xl hover:bg-background/80 transition-all group border border-transparent hover:border-border/50"
-                >
-                  <div className="p-3 bg-primary/10 rounded-lg text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <Mail size={20} />
+                <div className="mt-10 space-y-3 lg:mt-auto">
+                  <button
+                    onClick={copyEmail}
+                    className="group flex w-full items-center justify-between gap-3 rounded-2xl border border-border bg-background/60 px-5 py-4 text-left transition-colors hover:border-primary/50"
+                  >
+                    <span className="min-w-0">
+                      <span className="block font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                        Email
+                      </span>
+                      <span className="block truncate font-display text-lg font-semibold md:text-xl">
+                        {profile.email}
+                      </span>
+                    </span>
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-secondary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                      {copied ? <Check size={16} /> : <Copy size={16} />}
+                    </span>
+                  </button>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <a
+                      href={`tel:${profile.phone.replace(/\s/g, "")}`}
+                      className="flex items-center gap-3 rounded-2xl border border-border bg-background/60 px-5 py-4 text-sm transition-colors hover:border-primary/50"
+                    >
+                      <Phone size={16} className="text-primary" /> {profile.phone}
+                    </a>
+                    <a
+                      href="https://maps.app.goo.gl/h1uba1MVV4qNLBnt6"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 rounded-2xl border border-border bg-background/60 px-5 py-4 text-sm transition-colors hover:border-primary/50"
+                    >
+                      <MapPin size={16} className="text-primary" /> Hodal, Haryana
+                      <ArrowUpRight size={14} className="ml-auto text-muted-foreground" />
+                    </a>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-sm">Email</h4>
-                    <p className="text-muted-foreground text-sm group-hover:text-primary transition-colors">
-                      mr.mayank2402@gmail.com
-                    </p>
-                  </div>
-                </a>
-
-                <a
-                  href="tel:+919813420403"
-                  className="flex items-center gap-4 p-4 rounded-xl hover:bg-background/80 transition-all group border border-transparent hover:border-border/50"
-                >
-                  <div className="p-3 bg-primary/10 rounded-lg text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <Phone size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sm">Phone</h4>
-                    <p className="text-muted-foreground text-sm group-hover:text-primary transition-colors">
-                      +91 9813420403
-                    </p>
-                  </div>
-                </a>
-
-                <a
-                  href="https://maps.app.goo.gl/h1uba1MVV4qNLBnt6"
-                  className="flex items-center gap-4 p-4 rounded-xl hover:bg-background/80 transition-all group border border-transparent hover:border-border/50 cursor-default"
-                >
-                  <div className="p-3 bg-primary/10 rounded-lg text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <MapPin size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sm">Location</h4>
-                    <p className="text-muted-foreground text-sm group-hover:text-primary transition-colors">
-                      Hodal, Haryana
-                    </p>
-                  </div>
-                </a>
+                </div>
               </div>
-            </div>
-          </motion.div>
 
-          {/* Form Side */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-7"
-          >
-            <Card className="border-border/50 shadow-xl shadow-primary/5 bg-card/50 backdrop-blur-sm">
-              <CardContent className="p-8">
-                <form
-                  onSubmit={handleSubmit}
-                  className="space-y-6"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label htmlFor="name" className="text-sm font-medium ml-1">
-                        Name
-                      </label>
-                      <Input
-                        id="name"
-                        name="name" 
+              <SpotlightCard className="bg-background/40 p-5 backdrop-blur md:p-7">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label className="space-y-2">
+                      <span className="text-sm font-medium">Name</span>
+                      <input
+                        name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="John Doe"
+                        placeholder="Jane Doe"
                         required
-                        className="h-11 bg-secondary/20 border-border/50 focus:bg-background transition-colors"
+                        className={fieldClass}
                       />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="email" className="text-sm font-medium ml-1">
-                        Email
-                      </label>
-                      <Input
-                        id="email"
+                    </label>
+                    <label className="space-y-2">
+                      <span className="text-sm font-medium">Email</span>
+                      <input
                         name="email"
                         type="email"
                         value={formData.email}
                         onChange={handleChange}
-                        placeholder="john@example.com"
+                        placeholder="jane@company.com"
                         required
-                        className="h-11 bg-secondary/20 border-border/50 focus:bg-background transition-colors"
+                        className={fieldClass}
                       />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="subject" className="text-sm font-medium ml-1">
-                      Subject
                     </label>
-                    <Input
-                      id="subject"
+                  </div>
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium">Subject</span>
+                    <input
                       name="subject"
                       value={formData.subject}
                       onChange={handleChange}
-                      placeholder="Project Inquiry"
+                      placeholder="Project inquiry"
                       required
-                      className="h-11 bg-secondary/20 border-border/50 focus:bg-background transition-colors"
+                      className={fieldClass}
                     />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="message" className="text-sm font-medium ml-1">
-                      Message
-                    </label>
-                    <Textarea
-                      id="message"
+                  </label>
+                  <label className="block space-y-2">
+                    <span className="text-sm font-medium">Message</span>
+                    <textarea
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="Tell me about your project..."
-                      className="min-h-[180px] bg-secondary/20 border-border/50 focus:bg-background transition-colors resize-none"
+                      placeholder="Tell me about your project…"
                       required
+                      className={`${fieldClass} min-h-[160px] resize-none`}
                     />
-                  </div>
-                  <Button
+                  </label>
+                  <button
                     type="submit"
-                    size="lg"
                     disabled={isSubmitting}
-                    className="w-full h-12 text-base font-medium transition-all hover:scale-[1.01] shadow-lg shadow-primary/20"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.01] disabled:opacity-60"
                   >
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                    {!isSubmitting && <Send className="ml-2 w-4 h-4" />}
-                  </Button>
+                    {isSubmitting ? "Sending…" : "Send message"}
+                    {!isSubmitting && <Send size={15} />}
+                  </button>
                 </form>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
+              </SpotlightCard>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
