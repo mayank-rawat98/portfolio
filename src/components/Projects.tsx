@@ -117,7 +117,7 @@ const ProjectCard = ({
         {/* Miniature */}
         <div
           className={cn(
-            "relative order-first flex items-end overflow-hidden bg-gradient-to-br to-transparent px-6 pt-6 md:order-none md:px-8 md:pt-10",
+            "relative order-first flex items-center justify-center overflow-hidden bg-gradient-to-br to-transparent p-5 md:order-none md:p-8",
             tints[index % tints.length],
           )}
         >
@@ -132,9 +132,7 @@ const ProjectCard = ({
               src={project.image}
               alt={`${project.title} screenshot`}
               url={hostOf(project.links.demo)}
-              className="rounded-b-none border-b-0 shadow-2xl transition-transform duration-500 group-hover:-translate-y-2"
-              bodyClassName="h-[clamp(150px,24vh,220px)] md:h-[clamp(200px,34vh,340px)]"
-              imgClassName="transition-transform duration-700 group-hover:scale-[1.03]"
+              className="shadow-2xl transition-transform duration-500 group-hover:-translate-y-1"
             />
           </motion.div>
         </div>

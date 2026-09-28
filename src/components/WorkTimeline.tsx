@@ -35,11 +35,7 @@ const WorkTimeline = () => (
                   "absolute left-[5px] top-7 h-[13px] w-[13px] rounded-full border-2 bg-background md:left-[calc(25%-6.5px)]",
                   job.current ? "border-primary" : "border-muted-foreground/50",
                 )}
-              >
-                {job.current && (
-                  <span className="absolute inset-0 animate-ping rounded-full bg-primary/60" />
-                )}
-              </span>
+              />
 
               <div className="pl-10 md:pl-0 md:pr-10 md:pt-6 md:text-right">
                 <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
