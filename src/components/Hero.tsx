@@ -63,11 +63,7 @@ const Hero = () => {
         {/* Intro */}
         <Tile className="md:col-span-6 lg:col-span-8 lg:row-span-2">
           <div className="flex h-full flex-col justify-between gap-10">
-            <div className="flex items-center gap-2.5 self-start rounded-full border border-border bg-background/60 px-3 py-1.5 text-xs font-medium">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-              </span>
+            <div className="self-start rounded-full border border-border bg-background/60 px-3 py-1.5 text-xs font-medium">
               Open to new opportunities
             </div>
 
@@ -137,10 +133,10 @@ const Hero = () => {
                 className="text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
               />
             </div>
-            <div className="-mb-12 rotate-[-3deg] transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-0">
+            <div className="rotate-[-2deg] px-1 transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-0">
               <BrowserFrame src={latest.image} alt={latest.title} compact />
             </div>
-            <div className="relative -mx-5 -mb-5 mt-auto bg-gradient-to-t from-card via-card to-card/0 px-5 pb-5 pt-10">
+            <div className="mt-auto pt-5">
               <p className="font-display text-lg font-semibold">{latest.title}</p>
               <p className="text-sm text-muted-foreground">{latest.tagline}</p>
             </div>

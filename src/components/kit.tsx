@@ -94,7 +94,7 @@ export const BrowserFrame = ({
   url,
   compact = false,
   className,
-  bodyClassName = "aspect-[16/10]",
+  bodyClassName,
   imgClassName,
 }: {
   src: string;
@@ -135,7 +135,7 @@ export const BrowserFrame = ({
         src={src}
         alt={alt}
         loading="lazy"
-        className={cn("h-full w-full object-cover object-top", imgClassName)}
+        className={cn("block h-auto w-full", imgClassName)}
       />
     </div>
   </div>
