@@ -165,7 +165,7 @@ const Hero = () => {
 
         {/* Stats */}
         {[
-          { value: "1+", label: "Years shipping production code" },
+          { value: "1.5+", label: "Years shipping production code" },
           { value: `${projects.length}`, label: "Products live on the web" },
         ].map((stat) => (
           <Tile key={stat.label} className="md:col-span-3 lg:col-span-3">

@@ -37,7 +37,7 @@ export const projects: Project[] = [
     tags: ["Docker", "NestJS", "Next.js", "PostgreSQL", "WebSockets", "Prometheus"],
     highlights: ["Rate limiting & JWT auth", "Prometheus metrics", "Batched request logs"],
     links: {
-      repo: "https://github.com/mayank-rawat98/api-gateway",
+      repo: "https://github.com/mayank-rawat98/NovaGate",
       demo: "https://novagate.dev",
     },
   },
@@ -68,7 +68,6 @@ export const projects: Project[] = [
     highlights: ["Custom SMTP & DNS", "Unlimited inboxes", "Automated CI/CD"],
     links: {
       demo: "https://mailtr.co/about",
-      repo: "https://github.com/The-Regiment/mailtr",
     },
   },
 ];
